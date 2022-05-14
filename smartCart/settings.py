@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-c&)8nca$b(%h&cjvo3b_jg^y5jpyv1r_j*8rjlzr-7m0bg=ofl
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = []
 
 
@@ -39,8 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base',
     'rest_framework',
-
+    'rest_framework.authtoken',
 ]
+
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',    
+    ],
+
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -72,13 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'smartCart.wsgi.application'
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
