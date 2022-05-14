@@ -23,9 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c&)8nca$b(%h&cjvo3b_jg^y5jpyv1r_j*8rjlzr-7m0bg=ofl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-CSRF_COOKIE_SECURE = True
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['smartcart-helwan.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -52,6 +51,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #DJANGO WHITENOISE CONFIGURATION
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -134,3 +134,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FIXTURE_DIRS= [ BASE_DIR / 'fixtures',]
+
+#
