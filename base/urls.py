@@ -3,7 +3,7 @@ from rest_framework.authtoken import views as v
 from . import views
 
 urlpatterns = [
-    path('api/login', v.obtain_auth_token , name="login"),
+    path('api/login', views.CustomAuthToken.as_view() , name="login"),
     path('api/register', views.register_user , name="register"),
 
 
