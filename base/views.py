@@ -38,7 +38,7 @@ def register_user(request):
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            return JsonResponse("successfully registered", status=201 , safe=False)
         return JsonResponse(serializer.errors, status=400)
       
         # username = request.data.get('username')
