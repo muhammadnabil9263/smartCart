@@ -1,28 +1,36 @@
 from rest_framework import serializers
-from .models import OrderItem, Product, Order
+from .models import OrderItem, Product, Order,UserProfile
 from django.contrib.auth.models import User
+from  django.utils import timezone
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True, max_length=150)
     last_name = serializers.CharField(required=True, max_length=150)
     email = serializers.EmailField(required=True, )
 
     class Meta:
-        model = User
-        fields = ('id', 'username','first_name','last_name','email', 'password')
+        model = UserProfile
+        fields = ('username','first_name','last_name','email', 'password')
 
     def create(self, validated_data):
-        user = super(UserSerializer, self).create(validated_data)
+        user = super(UserProfileSerializer, self).create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user
 
+#
+# class UserProfileSerializer(serializers.ModelSerializer):
+#     user = UserSerializer(read_only=True)
+#     class Meta:
+#         model = UserProfile
+#         fields = ('id','user','image')
+#
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'Quantity', 'barcode']
+        fields = ['id', 'name', 'description', 'price', 'Quantity', 'image']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):

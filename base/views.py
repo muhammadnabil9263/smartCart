@@ -3,13 +3,12 @@ from .models import *
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import Cart, Order, OrderItem, Product
-from .serializers import ProductSerializer , OrderSerializer,UserSerializer
+from .serializers import ProductSerializer , OrderSerializer,UserProfileSerializer
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -53,7 +52,7 @@ class CustomAuthToken(ObtainAuthToken):
 def register_user(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer = UserSerializer(data=data)
+        serializer = UserProfileSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse({
@@ -68,6 +67,18 @@ def register_user(request):
         #     return JsonResponse({"message":"created successfully"+" "+str(username) })
         # else :
         #     return JsonResponse({"message":"wrong password"})
+
+
+@csrf_exempt
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def user_profile(request):
+    print("==========================================================")
+    print(request.user)
+    user_profile  = UserProfile.objects.get(username=request.user.username)
+    serializer = UserProfileSerializer(user_profile)
+    return JsonResponse(serializer.data, safe=False)
+
 
 
 @csrf_exempt
@@ -88,6 +99,21 @@ def orders_list(request):
         serializer = OrderSerializer(orders, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+
+
+@csrf_exempt
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def get_order_details(request,id):
+    try:
+        order = Order.objects.get(id=id)
+    except Order.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = OrderSerializer(order)
+    return Response(serializer.data)
+
+
+
 @csrf_exempt
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
@@ -97,6 +123,22 @@ def user_orders(request,):
         user_orders = Order.objects.filter(customer=id)
         serializer = OrderSerializer(user_orders, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+
+def calculate_amount_of_order(self):
+    return
+
+@csrf_exempt
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def get_order_details(request,id):
+    try:
+        order = Order.objects.get(id=id)
+        
+    except Order.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = OrderSerializer(order)
+    return Response(serializer.data)
 
 
 
