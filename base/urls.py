@@ -17,4 +17,6 @@ urlpatterns = [
     path('api/products', views.products_list , name="product-list"),
     path('api/orders', views.orders_list , name="orders-list"),
 
+    path('api/all-users', views.get_all_users, name="all-users"),
+
 ]

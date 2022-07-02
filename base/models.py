@@ -21,27 +21,51 @@ class Product(models.Model):
 
 
 class UserProfile(AbstractUser):
-    image = models.ImageField(upload_to="users",blank=True)
+    image = models.ImageField(upload_to="users",
+                              blank=True)
+    balance = models.DecimalField(default=0.0,
+                                  max_digits=99,
+                                  decimal_places=3)
 
 
 class Cart(models.Model):
     occupied = models.BooleanField(default=False)
 
 
+rates = (
+        ("1", "very bad"),
+        ("2", "bad"),
+        ("3", "good"),
+        ("4", "very good"),
+        ("5", "perfect"),
+    )
+
 class Order(models.Model):
-    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 on_delete=models.CASCADE,
+                                 null=True,
+                                 blank=True)
+    cart = models.ForeignKey(Cart,
+                             on_delete=models.CASCADE,
+                             null=True,
+                             blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
+    ratings = models.CharField(choices=rates, max_length= 50,default='1')
+
+    class Meta:
+        ordering = ["customer", ]
 
     def __str__(self):
         return str(self.id)
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product", null=True)
-    order = models.ForeignKey(Order, related_name="orderItems", on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                related_name="product", null=True)
+    order = models.ForeignKey(Order, related_name="orderItems",
+                              on_delete=models.SET_NULL,null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 

@@ -182,15 +182,20 @@ def adding_orderItem(request):
             setattr(f,"quantity",f.quantity+1)
             f.save()        
         else:
-            order.orderItems.create(product=product,quantity=1)
-       
-        
-             
+            order.orderItems.create(product=product,quantity=1)     
         order_serializer = OrderSerializer(order)
         return JsonResponse(order_serializer.data)
 
 
 
+@csrf_exempt
+@api_view(['GET'])
+def get_all_users(request):
+    if request.method == 'GET':
+        users = UserProfile.objects.all()
+        serialzer = UserProfileSerializer(users,many=True)
+        # data = JSONParser().parse(users)
+        return JsonResponse(serialzer.data,safe=False)
 
 
 
