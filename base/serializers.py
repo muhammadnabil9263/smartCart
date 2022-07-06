@@ -49,7 +49,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'cart', 'date_ordered', 'complete', 'ratings','orderItems']
+        fields = ['id', 'customer', 'cart', 'date_ordered', 'complete','orderItems']
 
 class RateSerializer(serializers.ModelSerializer):
     customer = serializers.StringRelatedField(read_only=True)
