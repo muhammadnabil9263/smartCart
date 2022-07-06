@@ -3,7 +3,7 @@ from .models import *
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import Cart, Order, OrderItem, Product
-from .serializers import ProductSerializer , OrderSerializer,UserProfileSerializer
+from .serializers import ProductSerializer , OrderSerializer,UserProfileSerializer,RateSerializer
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -198,7 +198,13 @@ def get_all_users(request):
         return JsonResponse(serialzer.data,safe=False)
 
 
-
+@csrf_exempt
+@api_view(['GET'])
+def get_all_rates(request):
+    if request.method == 'GET':
+        rates = Rate.objects.all()
+        serialzer = RateSerializer(rates,many=True)
+        return JsonResponse(serialzer.data,safe=False)
 
 
 

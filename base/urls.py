@@ -18,5 +18,7 @@ urlpatterns = [
     path('api/orders', views.orders_list , name="orders-list"),
 
     path('api/all-users', views.get_all_users, name="all-users"),
+    path('api/all-rates', views.get_all_rates, name="all-rates"),
+
 
 ]

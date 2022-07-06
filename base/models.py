@@ -33,11 +33,11 @@ class Cart(models.Model):
 
 
 rates = (
-        ("1", "very bad"),
-        ("2", "bad"),
-        ("3", "good"),
-        ("4", "very good"),
-        ("5", "perfect"),
+        ("very bad" , "very bad" ),
+        ("bad"      , "bad"      ),
+        ("good"     , "good"     ),
+        ("very good", "very good"),
+        ("perfect"  , "perfect"  ),
     )
 
 class Order(models.Model):
@@ -52,7 +52,6 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
-    ratings = models.CharField(choices=rates, max_length= 50,default='1')
 
     class Meta:
         ordering = ["customer", ]
@@ -69,6 +68,14 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
+
+class Rate (models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 on_delete=models.CASCADE,
+                                 null=True,
+                                 blank=True)
+    rate = models.CharField(choices=rates, max_length= 50, default='1')
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

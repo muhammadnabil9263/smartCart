@@ -1,5 +1,6 @@
+from itertools import product
 from rest_framework import serializers
-from .models import OrderItem, Product, Order, UserProfile
+from .models import OrderItem, Product, Order, UserProfile,Rate
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -11,7 +12,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('username', 'first_name', 'last_name', 'email', 'balance')
+        fields = ('username', 'first_name', 'last_name', 'email', 'balance','password')
 
     def create(self, validated_data):
         user = super(UserProfileSerializer, self).create(validated_data)
@@ -49,3 +50,13 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'customer', 'cart', 'date_ordered', 'complete', 'ratings','orderItems']
+
+class RateSerializer(serializers.ModelSerializer):
+    customer = serializers.StringRelatedField(read_only=True)
+    product = serializers.StringRelatedField(read_only=True)
+
+   
+    class Meta:
+        model = Rate
+        fields = "__all__"
+
