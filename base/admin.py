@@ -11,7 +11,8 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(Product)
 admin.site.register(Cart)
 admin.site.register(OrderItem)
-
+admin.site.register(UserProfile)
+admin.site.register(Rate)
 
 
 
