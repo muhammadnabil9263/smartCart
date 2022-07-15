@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-c&)8nca$b(%h&cjvo3b_jg^y5jpyv1r_j*8rjlzr-7m0bg=ofl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ['smartcart-helwan.herokuapp.com','127.0.0.1']
-
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'base',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
+
 ]
 
 REST_FRAMEWORK = {
@@ -50,6 +52,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', #DJANGO WHITENOISE CONFIGURATION
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'smartCart.urls'

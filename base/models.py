@@ -53,9 +53,7 @@ class Order(models.Model):
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
 
-    class Meta:
-        ordering = ["customer", ]
-
+   
     def __str__(self):
         return str(self.id)
 

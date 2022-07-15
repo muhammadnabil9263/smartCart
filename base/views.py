@@ -1,3 +1,5 @@
+from itertools import count
+from lib2to3.pgen2 import token
 from rest_framework import status
 from .models import *
 from django.http import JsonResponse
@@ -73,8 +75,6 @@ def register_user(request):
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def user_profile(request):
-    print("==========================================================")
-    print(request.user)
     user_profile  = UserProfile.objects.get(username=request.user.username)
     serializer = UserProfileSerializer(user_profile)
     return JsonResponse(serializer.data, safe=False)
@@ -142,6 +142,9 @@ def get_order_details(request,id):
 
 
 
+
+
+
 @csrf_exempt
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
@@ -158,6 +161,29 @@ def create_order(request):
             serializer = OrderSerializer(order)
             return JsonResponse({"order":serializer.data})
 
+temp=[]   
+@api_view(['POST','GET'])
+def send_token(request):     
+    if request.method == 'POST':  
+        token = JSONParser().parse(request)
+        if len(temp) < 3 :
+            temp.append(token)
+            return JsonResponse(token,safe=False)
+        else :
+            return JsonResponse(token,safe=False)
+    elif request.method == 'GET':
+        if len(temp)== 0:
+            return JsonResponse("0",safe=False)
+        else :
+            response = temp[0]
+            temp.clear()
+            return JsonResponse(response,safe=False)
+            
+         
+                
+                
+           
+
 
 @csrf_exempt
 @permission_classes([IsAuthenticated])
@@ -170,6 +196,7 @@ def adding_orderItem(request):
         except Product.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         order=request.user.order_set.last()
+        print(order)
         print("0000000000000000000000000000000000000000")
         checker=0
         for i in order.orderItems.all():
@@ -185,7 +212,6 @@ def adding_orderItem(request):
             order.orderItems.create(product=product,quantity=1)     
         order_serializer = OrderSerializer(order)
         return JsonResponse(order_serializer.data)
-
 
 
 @csrf_exempt

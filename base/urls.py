@@ -21,4 +21,8 @@ urlpatterns = [
     path('api/all-rates', views.get_all_rates, name="all-rates"),
 
 
+    path('api/send-token', views.send_token, name="send-token"),
+    path('api/logout-cart', views.send_token, name="logout-cart"),
+
+
 ]
