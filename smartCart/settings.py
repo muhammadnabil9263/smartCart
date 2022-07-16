@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-c&)8nca$b(%h&cjvo3b_jg^y5jpyv1r_j*8rjlzr-7m0bg=ofl
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['smartcart-helwan.herokuapp.com','127.0.0.1','52.14.152.231']
+ALLOWED_HOSTS = ['188.166.31.65','127.0.0.1']
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
