@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'base',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
-
+    'debug_toolbar',
 ]
 
 REST_FRAMEWORK = {
@@ -90,8 +89,13 @@ WSGI_APPLICATION = 'smartCart.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'polls',
+        'USER':'kidatabseuser',
+        'PASSWORD':'AVNS_533jZKdC3vUS2f1wtyB',
+        'HOST':'private-db-postgresql-ams3-10627-do-user-11850678-0.b.db.ondigitalocean.com',
+        'PORT':'25060',
+        'OPTIONS':{'sslmode':'require'},
     }
 }
 
@@ -138,9 +142,27 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "media",
+    BASE_DIR / "media/products",
+
+]
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FIXTURE_DIRS= [ BASE_DIR / 'fixtures',]
+
+
+
+INTERNAL_IPS = [
+    # ...
+    "188.166.31.65",
+    "10.110.0.2",
+    # ...
+]
+
