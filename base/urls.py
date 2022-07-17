@@ -21,4 +21,9 @@ urlpatterns = [
     path('api/all-rates', views.get_all_rates, name="all-rates"),
 
 
+    path('api/login-cart', views.send_and_receive, name="login-cart"),
+    path('api/confirm-login-cart', views.send_and_receive, name="confirm-login-cart"),
+    path('api/logout-cart', views.send_and_receive, name="logout-cart"), 
+    path('api/confirm-logout-cart', views.send_and_receive, name="confirm-logout-cart"),
+
 ]

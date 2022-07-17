@@ -23,7 +23,7 @@ class Product(models.Model):
 class UserProfile(AbstractUser):
     image = models.ImageField(upload_to="users",
                               blank=True)
-    balance = models.DecimalField(default=0.0,
+    balance = models.DecimalField(default=10000,
                                   max_digits=99,
                                   decimal_places=3)
 
@@ -52,10 +52,9 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
+    total_price= models.IntegerField(default=0,null=True,blank=True)
 
-    class Meta:
-        ordering = ["customer", ]
-
+   
     def __str__(self):
         return str(self.id)
 
@@ -67,6 +66,7 @@ class OrderItem(models.Model):
                               on_delete=models.SET_NULL,null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    price = models.IntegerField(default=0, null=True, blank=True)
 
 
 class Rate (models.Model):

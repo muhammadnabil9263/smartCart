@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-c&)8nca$b(%h&cjvo3b_jg^y5jpyv1r_j*8rjlzr-7m0bg=ofl
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['smartcart-helwan.herokuapp.com','127.0.0.1']
-
+ALLOWED_HOSTS = ['188.166.31.65','127.0.0.1']
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'base',
     'rest_framework',
     'rest_framework.authtoken',
+    'debug_toolbar',
 ]
 
 REST_FRAMEWORK = {
@@ -50,6 +51,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', #DJANGO WHITENOISE CONFIGURATION
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # "debug_toolbar.middleware.DebugToolbarMiddleware ",
+    
 ]
 
 ROOT_URLCONF = 'smartCart.urls'
@@ -84,12 +88,26 @@ WSGI_APPLICATION = 'smartCart.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'polls',
+#         'USER':'kidatabseuser',
+#         'PASSWORD':'AVNS_533jZKdC3vUS2f1wtyB',
+#         'HOST':'private-db-postgresql-ams3-10627-do-user-11850678-0.b.db.ondigitalocean.com',
+#         'PORT':'25060',
+#         'OPTIONS':{'sslmode':'require'},
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
@@ -134,9 +152,27 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "media",
+    BASE_DIR / "media/products",
+
+]
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FIXTURE_DIRS= [ BASE_DIR / 'fixtures',]
+
+
+
+INTERNAL_IPS = [
+    # ...
+    "188.166.31.65",
+    "10.110.0.2",
+    # ...
+]
+
