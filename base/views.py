@@ -180,10 +180,6 @@ def send_token(request):
             return JsonResponse(response,safe=False)
             
          
-                
-                
-           
-
 
 @csrf_exempt
 @permission_classes([IsAuthenticated])
@@ -232,5 +228,24 @@ def get_all_rates(request):
         serialzer = RateSerializer(rates,many=True)
         return JsonResponse(serialzer.data,safe=False)
 
-
+    
+temp=[]   
+@api_view(['POST','GET'])
+def send_token(request):     
+    if request.method == 'POST':  
+        token = JSONParser().parse(request)
+        if len(temp) < 3 :
+            temp.append(token)
+            return JsonResponse(token,safe=False)
+        else :
+            return JsonResponse(token,safe=False)
+    elif request.method == 'GET':
+        if len(temp)== 0:
+            return JsonResponse("0",safe=False)
+        else :
+            response = temp[0]
+            temp.clear()
+            return JsonResponse(response,safe=False)
+            
+         
 
