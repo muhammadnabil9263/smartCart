@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # "debug_toolbar.middleware.DebugToolbarMiddleware ",
     
 ]
 
@@ -87,17 +88,26 @@ WSGI_APPLICATION = 'smartCart.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'polls',
+#         'USER':'kidatabseuser',
+#         'PASSWORD':'AVNS_533jZKdC3vUS2f1wtyB',
+#         'HOST':'private-db-postgresql-ams3-10627-do-user-11850678-0.b.db.ondigitalocean.com',
+#         'PORT':'25060',
+#         'OPTIONS':{'sslmode':'require'},
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'polls',
-        'USER':'kidatabseuser',
-        'PASSWORD':'AVNS_533jZKdC3vUS2f1wtyB',
-        'HOST':'private-db-postgresql-ams3-10627-do-user-11850678-0.b.db.ondigitalocean.com',
-        'PORT':'25060',
-        'OPTIONS':{'sslmode':'require'},
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
