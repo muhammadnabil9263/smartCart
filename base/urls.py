@@ -21,9 +21,9 @@ urlpatterns = [
     path('api/all-rates', views.get_all_rates, name="all-rates"),
 
 
-    path('api/login-cart', views.send_and_receive, name="login-cart"),
-    path('api/confirm-login-cart', views.send_and_receive, name="confirm-login-cart"),
-    path('api/logout-cart', views.send_and_receive, name="logout-cart"), 
-    path('api/confirm-logout-cart', views.send_and_receive, name="confirm-logout-cart"),
+    path('api/login-cart', views.send_and_receive_1, name="login-cart"),
+    path('api/confirm-login-cart', views.send_and_receive_2, name="confirm-login-cart"),
+    path('api/logout-cart', views.send_and_receive_3, name="logout-cart"), 
+    path('api/confirm-logout-cart', views.send_and_receive_4, name="confirm-logout-cart"),
 
 ]
