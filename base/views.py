@@ -5,7 +5,7 @@ from .models import *
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import Cart, Order, OrderItem, Product
-from .serializers import ProductSerializer , OrderSerializer,UserProfileSerializer,RateSerializer
+from .serializers import ProductSerializer , OrderSerializer,UserProfileSerializer,RateSerializer,recommendationsserialiser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -19,6 +19,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+
+from random import randint
+from collections import OrderedDict
+
 
 
 # @csrf_exempt
@@ -336,6 +340,25 @@ def send_and_receive_4(request):
             return JsonResponse(response,safe=False)
 
 
+        
+        
+        
+ #added new serializer(recommendationsserialiser) and two imports in views(random,orderdictionary) and added the url to urls.py
+@csrf_exempt
+@api_view(['GET'])
+def recommendations(request):
+    if request.method == 'GET':
+        products = Product.objects.all()
+        serialzer = recommendationsserialiser(products,many=True)
+        p1 = randint(0, len(serialzer.data)-1)
+        p2 = randint(0, len(serialzer.data)-1)
+        p3 = randint(0, len(serialzer.data)-1)
+        print(serialzer.data)
+        sz = OrderedDict()
+        sz[p1] = serialzer.data[p1]
+        sz[p2] = serialzer.data[p2]
+        sz[p3] = serialzer.data[p3]
+        return JsonResponse(sz,safe=False)
 
 
 
