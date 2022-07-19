@@ -60,3 +60,7 @@ class RateSerializer(serializers.ModelSerializer):
         model = Rate
         fields = "__all__"
 
+class recommendationsserialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name','image']
