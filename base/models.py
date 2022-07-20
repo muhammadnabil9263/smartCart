@@ -81,3 +81,7 @@ class Rate (models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+class Usedtransactions(models.Model):
+    transactionid = models.IntegerField(default=0, null=True, blank=False)
+    username = models.CharField(max_length=256)

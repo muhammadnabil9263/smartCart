@@ -23,6 +23,8 @@ from rest_framework.response import Response
 from random import randint
 from collections import OrderedDict
 
+import requests 
+from django import http
 
 
 # @csrf_exempt
@@ -164,6 +166,15 @@ def create_order(request):
             order = Order.objects.create(customer=request.user,cart=cart)
             serializer = OrderSerializer(order)
             return JsonResponse({"order":serializer.data})
+
+
+
+
+            
+
+
+
+
 
 
 
@@ -340,9 +351,10 @@ def send_and_receive_4(request):
             return JsonResponse(response,safe=False)
 
 
-        
-        
-        
+
+
+
+     
  #added new serializer(recommendationsserialiser) and two imports in views(random,orderdictionary) and added the url to urls.py
 @csrf_exempt
 @api_view(['GET'])
@@ -360,5 +372,52 @@ def recommendations(request):
         sz[p3] = serialzer.data[p3]
         return JsonResponse(sz,safe=False)
 
+
+
+## imported in view requests and http , added a table in models.py(usedtransactions), 
+@csrf_exempt
+@api_view(['GET'])
+def recharge(request):
+    if request.method == 'GET':
+        url = 'https://accept.paymob.com/api/auth/tokens'  # replace with other python app url or ip
+        request_data = {'api_key': 'ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6VXhNaUo5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TVRVeE5EWXlMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkuNGZMbXo5dzF0U05MdmhyMThtN0NRZ2dDalNZd0tHWHpjcjlXSV9jVG5DNUdzdzBGdjZPTWJKZFotLS1EazNRdHpBYmVVa3BKYXFfYUoxazRDVHQtX3c='}  # replace with data to be sent to other app
+        response_post = requests.post(url, json=request_data)
+        response_post_data = response_post.json()  # data returned by other app
+        token = response_post_data['token']
+        
+        
+        headers = {'authorization' : token}
+        get_data = request.GET
+        #transctionid = '47836548'
+        if ('username' not in get_data or 'transctionid'  not in get_data) :
+            return http.JsonResponse({"Error":"Username or transaction id is missing"})
+        else :
+            transctionid = get_data['transctionid']
+            usernam = get_data['username']
+            print(transctionid)
+            url2 = "https://accept.paymob.com/api/acceptance/transactions/%s"%transctionid
+            #urlspare = "https://accept.paymob.com/api/acceptance/transactions"
+            get_paramters = {'transaction_id':transctionid}
+            response_get = requests.get(url2, json=get_paramters, headers=headers)
+            response_get_data = response_get.json()
+            
+            if ('id' in response_get_data and 'success' in response_get_data) :
+                    usedtransaction = Usedtransactions.objects.filter(transactionid = transctionid).exists()
+                    print(usedtransaction)
+                    if not usedtransaction :
+                        ##add it to used transactions 
+                        Usedtransactions.objects.create(transactionid=transctionid,username =usernam )
+                        current_balance = UserProfile.objects.filter(username=usernam).values_list('balance')
+                        #print("----------",current_balance[0][0],type(current_balance[0][0]))
+                        newcredit = response_get_data ['amount_cents']/100.0
+                        new_balance  = float(current_balance[0][0]) + newcredit
+                        UserProfile.objects.filter(username=usernam).update(balance= new_balance)
+                        print(response_get_data)
+                        return http.JsonResponse({"message":"Recharged sucessfully"},safe=False)
+                    else : 
+                        #update the DB
+                        return http.JsonResponse({"Error":"Transaction ID is used before, Please try to recharge"},safe=False)
+            else :     
+                    return http.JsonResponse({"Error":"Username or transaction id is wrong","Paymentresponse":"%s"%response_get_data},safe=False)
 
 

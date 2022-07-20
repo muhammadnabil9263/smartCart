@@ -25,9 +25,9 @@ urlpatterns = [
     path('api/confirm-login-cart', views.send_and_receive_2, name="confirm-login-cart"),
     path('api/logout-cart', views.send_and_receive_3, name="logout-cart"), 
     path('api/confirm-logout-cart', views.send_and_receive_4, name="confirm-logout-cart"),
-    
-    
-    path('api/recommendations', views.recommendations, name="recommendations"),
 
+  
+    path('api/recommendations', views.recommendations, name="recommendations"),
+    path('api/recharge', views.recharge, name="recharge"),
 
 ]
